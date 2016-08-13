@@ -19,7 +19,7 @@ coverage
 .lock-wscript
 
 # Built Directory
-# dist
+dist
 
 # Dependency directories
 node_modules

@@ -8,7 +8,7 @@ var ENV = process.env.npm_lifecycle_event;
 var isProd = ENV === 'prod';
 
 module.exports = {
-	entry: './app/app.js',
+	entry: ['bootstrap-loader', './app/app.js'], // bootstrap-loader is added here to setup the Bootstrap Configuration in the .bootstraprc file
 	output: {
 		path: './dist',
 		filename: '[name]_bundle.js'
@@ -29,7 +29,7 @@ module.exports = {
 			},
 			{ // If you want to use Sass/Scss `npm install sass-loader --save-dev` and `node-sass` is also recommended
 				test: /\.scss$/,
-				loader: 'style!css!sass'
+				loader: 'style!css!sass!sass-resources'
 			},
 			// { If you want to use Less, `npm install less-loader --save-dev`
 			// 	test: /\.less$/,
@@ -39,10 +39,10 @@ module.exports = {
 				test: /\.html$/,
 				loader: 'ngtemplate!html'
 			},
-			// { Useful if your application is processing numerous font or asset files, `npm install file-loader --save-dev`
-			// 	test: /\.(gif|png|jpe?g|ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/,
-			// 	loader: 'file-loader'
-			// }
+			{ // Useful if your application is processing numerous font or asset files, `npm install file-loader --save-dev`
+				test: /\.(gif|png|jpe?g|ttf|otf|eot|svg|woff(2)?)(\?[a-z0-9]+)?$/, // Brought in for the glyphicons
+				loader: 'file-loader'
+			}
 		]
 	},
 	plugins: [
@@ -61,10 +61,11 @@ module.exports = {
 			inject: true
 		}),
         // Extracts the CSS styles to an actual `.css` file that will be injected on build instead of it being included in the javascript
-		new ExtractTextPlugin("styles.css")
+		new ExtractTextPlugin("vendors/styles.css")
         // Annotates Angular Code to make sure it is minified properly, `npm install ng-annotate-webpack-plugin`
 		// new ngAnnotatePlugin({
 		// 	add: true
 		// }),
-	]
+	],
+	sassResources: './app/styles/config.scss',
 };

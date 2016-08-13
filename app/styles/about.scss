@@ -1,0 +1,7 @@
+#about {
+    background: #111;
+    color: #eee;
+    a, button {
+        @include make-md-column(6);
+    }
+}
